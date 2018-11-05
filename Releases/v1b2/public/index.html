@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stagetimer</title>
+
+    <script src="jquery.js" type="text/javascript"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #ffffff;
+            height: 100%;
+        }
+        #screenBorder {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            top: 0;
+        }
+
+        #overtime {
+            position: absolute;
+            top:0;
+            width:100%;
+            font-size: 75pt;
+            text-align: center;
+            color: #ff6a00;
+        }
+        #clock {
+            font-size: 175pt;
+            text-align: center;        
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+       
+    </style>
+</head>
+<body>
+    <div id="screenBorder">
+        <div id="overtime"></div>
+        <div id="clock" class="clockBlink"></div>
+        <div id="infoblock"></div>
+    </div>
+
+
+<script>
+    let interval = this;
+
+    function readTextFile(file) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        var ip = "localhost";
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState === 4) {
+                if (rawFile.status === 200 || rawFile.status == 0) {
+                    var allText = rawFile.responseText;
+                    ip = allText;
+                }
+            }            
+        }
+        rawFile.send(null);
+        return ip;
+    }
+    triedlocalhost = false;
+
+    var ip = readTextFile("ipaddr.txt");
+
+    connectToWs();
+    var localhostToggler = false;
+    var ws;
+    function connectToWs() {
+        if (!localhostToggler) {
+            ws = new WebSocket("ws://localhost:1337");
+        } else {
+            ws = new WebSocket("ws://" + ip + ":1337");
+        }
+        localhostToggler = !localhostToggler;
+
+        ws.onclose = function (error) {
+            connectToWs();
+        }
+
+        ws.onopen = function (object) {
+            ws.send(JSON.stringify({ 'type': 'system', 'finishedBooting': true }));
+        }
+
+        let displayPage = "";
+        //let app know we are ready
+        ws.addEventListener('message', (e) => {
+            //console.log('Message received', JSON.parse(e.data));
+            let data = JSON.parse(e.data);
+
+            if (data.type == "clock") {
+                var h = data.time[0];
+                var m = data.time[1];
+                var s = data.time[2];
+                if (parseInt(h) < 10) { h = "0" + h; }
+                if (parseInt(m) < 10) { m = "0" + m; }
+                if (parseInt(s) < 10) { s = "0" + s; }
+
+                $('#clock').html(h + ":" + m + ":" + s);
+
+                if (data.fontColor === "white") {
+                    $('#clock').css('color', '#ffffff');
+                }
+                else if (data.fontColor === "orange") {
+                    $('#clock').css('color', '#ee7600');
+                }
+                else if (data.fontColor === "red") {
+                    $('#clock').css('color', '#ff0000');
+                }
+
+                if (data.isOvertime) {
+                    $('#screenBorder').css('border', '5px solid red');
+                    $('#overtime').html('Overtime');
+                }
+                else {
+                    $('#screenBorder').css('border', '0px');
+                    $('#overtime').html('');
+                }
+            }
+           
+        });
+    }
+
+
+
+
+    function blinker() {
+        $('.clockBlink').fadeOut(650);
+        $('.clockBlink').fadeIn(650);
+    }
+   
+
+</script>
+</body>
+</html>

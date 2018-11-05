@@ -1,0 +1,1 @@
+{"brightness":50,"warn":"00:05:00","alert":"00:01:00","allowovertime":true,"flashonwarning":true,"countup":"00:00:00","countdown":"00:20:00","fontsize":3}

@@ -1,0 +1,1 @@
+{"currentVersion":"v1.2","brightness":20,"warn":"00:02:30","alert":"00:01:00","allowovertime":true,"flashonwarning":true,"countup":"00:00:00","countdown":"00:20:00","fontsize":10,"d_hh":true,"d_mm":true,"d_ss":true,"overtimeStyle":6,"colorBackground":"0.0.0","colorWarn":"255.106.0","colorAlert":"255.0.0","colorHhmmss":"255.255.255"}

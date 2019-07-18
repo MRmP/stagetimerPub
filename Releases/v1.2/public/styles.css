@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+canvas {
+    font-kerning: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#screenPosition {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+#screenBorder {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#overtime {
+    font-family: Arial;
+    width: 100%;
+    text-align: center;
+}
+#clock {
+    text-align: center;
+    position: relative;
+    font-kerning: none;
+    top: 50%;
+    font-family: Arial
+}
+.clockCenter {
+    transform: translateY(-50%);
+}
+.redBorder {
+    border: 5px solid;
+}
+.blackBorder {
+    border: 5px solid;
+}
+.overtimerSmall {
+    margin-left: -5px;
+    position: absolute;
+    top: -34%;
+    border-left: 5px solid;
+    border-right: 5px solid;
+    border-top: 5px solid;
+}
+.screenBorderLarge {
+    height: 100%;
+}
+.overtimeLarge {
+    position: absolute;
+}
+.screenBorderNone {
+    border: none;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.screenBorderSmall {
+    display: table;
+    margin: auto;
+    border-left: 5px solid;
+    border-right: 5px solid;
+    border-bottom: 5px solid;
+    border-top: 5px solid;
+}
+.screenBorderSmalltopBorder {
+    border-top: 5px solid;
+}
+.clockSmall {
+    display: inline;
+}
